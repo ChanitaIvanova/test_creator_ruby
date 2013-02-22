@@ -1,6 +1,7 @@
 ﻿require "tk"
 require 'generate_test'
-  def generate
+class GraficInterface
+  def self.generate
     $directory_from = ""
     $directory_to = ""
     $f1.destroy if($f1)
@@ -56,7 +57,7 @@ require 'generate_test'
     TkButton.new($f1) do
       text "Save Answers In"
       pack('side'=>'top')
-      command {$directory_answers = Tk.getSaveFile('defaultextension'=> "pdf")}
+      command {$directory_answers.value = Tk.getSaveFile('defaultextension'=> "pdf")}
     end
     entry5 = TkEntry.new($f1) do
       state 'disabled'
@@ -84,9 +85,10 @@ require 'generate_test'
           )
           return
         end
-        test = Test.load($directory_from)
-        Generate.create(test,count.value.to_i,$directory_to,$directory_answers,title.value)
+        test = Test.load($directory_from.value)
+        Generate.create(test,count.value.to_i,$directory_to.value,$directory_answers.value,title.value)
         $f1.destroy
       }
     end
   end
+end

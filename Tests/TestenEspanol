@@ -1,0 +1,22 @@
+QU: Q C: Como me llamo? :QCEND 
+A C: 
+AN: Pepita :ANEND
+AN: Chanita :ANEND
+AN: Julia :ANEND
+ :ACEND
+ C C: 2  :CCEND :QUEND
+
+QU: Q O: Lo sabe tu mama? :QOEND 
+A O: 
+AN: Si :ANEND
+AN: No :ANEND
+ :AOEND :QUEND
+
+QU: Q C: Quien es el hijo de Julio Iglesias? :QCEND 
+A C: 
+AN: Jorje Iglesias :ANEND
+AN: Pablo Iglesias :ANEND
+AN: Enrique Iglesias :ANEND
+ :ACEND
+ C C: 3  :CCEND :QUEND
+

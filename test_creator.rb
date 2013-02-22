@@ -6,7 +6,7 @@ class TestCreatorInterface
 
   def execute(line)
     case line
-      when /^creat\s+(.+)\s*$/ then creat_test($1)
+      when /^create\s+(.+)\s*$/ then creat_test($1)
       when /^start\s+(.+?)\b\s*(\d*)\s*$/ then
         if !(File.exist? $1) then print "There isn't such test!\n"
           return
@@ -20,7 +20,7 @@ class TestCreatorInterface
         else
         generate($1)
         end
-      when 'help' then help
+      when 'help' then print HELP
       when 'exit' then raise StopIteration
       else raise 'Not valid command! Try typeing \'help\''
     end
@@ -31,7 +31,7 @@ class TestCreatorInterface
   end
 
   def creat_test(address)
-    if (File.exist? address) then 
+    if (File.exist? address) then
       print "This file allready exists!\nWould you like to change it?[yes|[no]"
       command = gets.chomp
       if(command == 'no') then return end
@@ -50,7 +50,7 @@ Write help for other information.\n"
         when /\s*open\s*/ then questions << creat_open_question
         when /\s*finish\s*/ then break
         when /\s*exit\s*/ then exit(0)
-        when /\s*help\s*/ then help
+        when /\s*help\s*/ then print HELP
         else print "Not valid command! Try typeing 'help'\n"
       end
     end
@@ -61,7 +61,7 @@ Write help for other information.\n"
 #and the function creates a ClosedQuestion to put in the test
 #that the user is creating
   def creat_closed_question
-    print "Write question:\n~~" 
+    print "Write question:\n~~"
     question = gets.chomp
     print "Write Answers:\n"
     optians = 65
@@ -76,15 +76,15 @@ Write help for other information.\n"
     print "Correct answers\n~~"
     correct = gets.chomp
     correct = correct.split(/,* */)
-    correct = correct.map{|x| x.ord - 64}
+    correct = correct.map{|x| (x.upcase).ord - 64}
     ClosedQuestion.new(question,answers,correct)
   end
 #with this function the user could create an open question
-#the user inputs a question and possible answers 
+#the user inputs a question and possible answers
 #and the function creates an OpenQuestion to put in the test
 #that the user is creating
   def creat_open_question
-    print "Write question:\n~~" 
+    print "Write question:\n~~"
     question = gets.chomp
     print "Write Answers:\n"
     optians = 65
@@ -99,7 +99,7 @@ Write help for other information.\n"
     OpenQuestion.new(question,answers)
   end
 #open_ask is given an open question
-#it prints the question 
+#it prints the question
 #and takes the user's answer
 #then it produces an OpenAnswer
 #so that a response could be given to the user
@@ -117,12 +117,12 @@ Write help for other information.\n"
   def closed_ask(closed)
     print closed.question + "\n"
     options = 65
-    closed.answers.map{ |x| print options.chr + ": " + x + "\n" 
+    closed.answers.map{ |x| print options.chr + ": " + x + "\n"
       options +=1
      }
     user_answer = gets.chomp
     user_answer = user_answer.split(/,* */)
-    user_answer = user_answer.map{|x| x.ord - 64}
+    user_answer = user_answer.map{|x| (x.upcase).ord - 64}
     ClosedAnswers.new(closed,user_answer)
   end
 #ask helps find out what kind of question
@@ -133,9 +133,9 @@ Write help for other information.\n"
   end
 #test() randomly takes $count questions from $test
 #and asks the user. For each question test()
-#saves the users answer in array answers and after all the 
+#saves the users answer in array answers and after all the
 #questions are answerd it prints statistics about the correct
-#and wrong answers. 
+#and wrong answers.
   def test(test,count = test.questions.length)
     count = test.questions.length if count > test.questions.length
     test_questions = []
@@ -150,7 +150,7 @@ Write help for other information.\n"
       answers<<answer
     }
     wrong = 0
-    answers.each_index{ |x| 
+    answers.each_index{ |x|
       puts "#{x +1 } " + answers[x].response
       wrong +=1 if !answers[x].tag
     }
@@ -158,12 +158,12 @@ Write help for other information.\n"
   end
 #generate() takes $count questions from $address which
 #is the address of a test and puts them in a text file.
-#If is given $title it is put in the begining of the 
+#If is given $title it is put in the begining of the
 #text file. If is given an address for the answers
 #in it are saved the corresponding answers to the
 #questions put in the text file.
   def generate(address,count=nil)
-    if !(File.exist? address) then 
+    if !(File.exist? address) then
       print "There isn't such test!\n"
       return
     end
@@ -171,14 +171,14 @@ Write help for other information.\n"
     title = gets.chomp
     print "Address for the test: "
     address_test = gets.chomp
-    if (File.exist? address_test+".pdf") then 
+    if (File.exist? address_test+".pdf") then
       print "This file allready exists!\nWould you like to change it?[yes|[no]"
       command = gets.chomp
       if(command == 'no') then return end
     end
     print "Address for the answers: "
     address_answers = gets.chomp
-    if (File.exist? address_answers + ".pdf") then 
+    if (File.exist? address_answers + ".pdf") then
       print "This file allready exists!\nWould you like to change it?[yes|[no]"
       command = gets.chomp
       if(command == 'no') then return end
@@ -193,6 +193,32 @@ Write help for other information.\n"
       execute gets.chomp
     end
   end
+HELP=<<HELPEND
+              OPTIONS
+  - create DIRECTORY
 
+      With this you create new test in DIRECTORY.
+      
+   Here you have four options:
+      closed        Starts the creation of a closed question.
+      open          Starts the creation of an open question.
+      finish        Saves the test you've created!
+      exit          Exits the program without saving the test.
+      help          Prints this text
+      
+      
+  - start DIRECTORY [COUNT]
+  
+        With this you start the test pointed thru DIRECTORY 
+      if you have pointed a COUNT- this number of questions 
+      will be taken from the test.
+      
+      
+  - generate DIRECTORY [COUNT]
+
+        With this you generate a test in a text file pointed thru DIRECTORY 
+      if you have pointed a COUNT- this number of questions 
+      will be taken from the test and put in the text file.
+HELPEND
 end
 TestCreatorInterface.new.run
