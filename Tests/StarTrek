@@ -1,0 +1,20 @@
+QU: Q O: Write three engineers who served on Enterprise chronologically? :QOEND 
+A O: 
+AN: Trip, Scotty, Geordi :ANEND
+AN: Charles Tucker III,Scott, Geordi La Forge :ANEND
+ :AOEND :QUEND
+
+QU: Q C: The firs captian of the Star ship Enterprise was? :QCEND 
+A C: 
+AN: James T. Kirk :ANEND
+AN: Jonathan Archer :ANEND
+AN: Christopher Pike :ANEND
+ :ACEND
+ C C: 2  :CCEND :QUEND
+
+QU: Q O: The name of an actress that plays in all the Star trek movies and series? :QOEND 
+A O: 
+AN: Majel Barrett :ANEND
+AN: Majel Barrett Roddenberry :ANEND
+ :AOEND :QUEND
+
